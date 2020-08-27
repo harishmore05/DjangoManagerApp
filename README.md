@@ -46,3 +46,51 @@ Braintree works with following steps of payment:
 3. Client will genrate nounce and will send it to server. In our case **localhost:8000/payment/gettoken/process/<str:id>/<str:token>/** will get called with valid token and id.
 4. Django server will request braintree for payment processing with braintree token and client nounce.
 5. Braintree server will response with JSON data about payment like transaction id and transaction amount.
+
+## Steps to follow to run this project:
+
+1. Install django using **pip install Django**
+2. Install all dependancies using **pip install -r requirements.txt** command.
+3. Now all installation part is over
+4. Now create a file 00001_initial.py at folder location **api/migrations/00001_initial.py** (This will create superuser at the time of migration)
+
+```
+from django.db import migrations
+from api.user.models import CustomUser
+
+
+
+class Migration(migrations.Migration):
+	def seed_data(apps, schema_editor):
+		user = CustomUser(first_name="test",
+            last_name="test",
+			email = "test12@gmail.com",
+			is_staff = True,
+			is_superuser = True,
+            is_subscribed =True,
+			)
+		user.set_password("12345")
+		user.save()
+
+	dependencies = [
+
+	]
+
+	operations = [
+		migrations.RunPython(seed_data),
+	]
+```
+
+5. After that execute this 2 commands: 
+
+```
+1. python manage.py makemigrations
+2. python manager.py runserver
+```
+
+6. Now it's time to start server
+```
+python manage.py runserver
+```
+
+7. Go to the angular app and make requests/runapp
